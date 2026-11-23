@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InternFlow | Enterprise Student Internship Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: #eef2ff;
+            --secondary: #0f172a;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --success-bg: #ecfdf5;
+            --warning: #f59e0b;
+            --warning-bg: #fffbeb;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --info-bg: #eff6ff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            --radius: 12px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0.85rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--secondary);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-icon {
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            display: grid;
+            place-items: center;
+            font-size: 1rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            background: var(--bg-main);
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .nav-tab {
+            padding: 8px 18px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tab.active {
+            background: var(--bg-card);
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-tab:hover:not(.active) {
+            color: var(--text-main);
+        }
+
+        .badge-count {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 0.75rem;
+            padding: 2px 7px;
+            border-radius: 99px;
+            font-weight: 700;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            border: 2px solid #c7d2fe;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: white;
+            padding: 3rem 5% 4.5rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.75px;
+        }
+
+        .hero p {
+            color: #cbd5e1;
+            max-width: 620px;
+            margin: 0 auto 2rem;
+            font-size: 1rem;
+        }
+
+        /* Search & Filter Bar */
+        .search-container {
+            max-width: 1100px;
+            margin: -2.25rem auto 2rem;
+            padding: 0 5%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .filter-bar {
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 12px;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 14px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 11px 14px 11px 38px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            background: var(--bg-main);
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+        }
+
+        .btn-reset {
+            padding: 11px 18px;
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-reset:hover {
+            background: #e2e8f0;
+            color: var(--text-main);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 5% 4rem;
+            flex: 1;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        /* Stats Strip */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-size: 1.25rem;
+        }
+
+        .stat-info h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+            line-height: 1.2;
+        }
+
+        .stat-info p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Internship Cards Grid */
+        .internships-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: #c7d2fe;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .company-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .company-logo {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 2px;
+        }
+
+        .company-name {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .btn-bookmark {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 4px;
+            transition: var(--transition);
+        }
+
+        .btn-bookmark.saved {
+            color: var(--warning);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            font-size: 0.78rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-weight: 500;
+            border: 1px solid var(--border);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tag.stipend {
+            background: var(--success-bg);
+            color: #065f46;
+            border-color: #a7f3d0;
+            font-weight: 600;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 1.25rem;
+        }
+
+        .skill-chip {
+            font-size: 0.74rem;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 3px 9px;
+            border-radius: 99px;
+            font-weight: 600;
+        }
+
+        .card-footer {
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .deadline {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: var(--bg-main);
+            border-color: #cbd5e1;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-applied {
+            background: var(--success-bg);
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+            cursor: default;
+        }
+
+        /* Application Tracker View */
+        .hidden {
+            display: none !important;
+        }
+
+        .tracker-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .tracker-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            display: grid;
+            grid-template-columns: 1.5fr 2fr auto;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* Progress Stepper */
+        .stepper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+            flex: 1;
+            position: relative;
+        }
+
+        .step-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--bg-main);
+            border: 2px solid var(--border);
+            display: grid;
+            place-items: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .step.completed .step-circle {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .step.active .step-circle {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+
+        .step-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .step.completed .step-label,
+        .step.active .step-label {
+            color: var(--secondary);
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 99px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .status-Submitted { background: var(--info-bg); color: #1d4ed8; }
+        .status-Under-Review { background: var(--warning-bg); color: #b45309; }
+        .status-Interview { background: var(--primary-light); color: var(--primary); }
+        .status-Offered { background: var(--success-bg); color: #065f46; }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            place-items: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-overlay.open {
+            display: grid;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            width: 100%;
+            max-width: 620px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: var(--bg-main);
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: #e2e8f0;
+            color: var(--secondary);
+        }
+
+        .modal-section {
+            margin: 1.25rem 0;
+        }
+
+        .modal-section h4 {
+            font-size: 0.95rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-section ul {
+            padding-left: 1.25rem;
+            color: var(--text-main);
+            font-size: 0.9rem;
+        }
+
+        .modal-section li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* Application Form */
+        .form-group {
+            margin-bottom: 1.1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 95px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--secondary);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 2000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 1rem;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px dashed var(--border);
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 900px) {
+            .filter-bar {
+                grid-template-columns: 1fr;
+            }
+            .tracker-card {
+                grid-template-columns: 1fr;
+            }
+            .navbar {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="brand">
+            <div class="brand-icon"><i class="fas fa-briefcase"></i></div>
+            InternFlow
+        </a>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-view="explore" onclick="switchView('explore')">
+                <i class="fas fa-compass"></i> Explore
+            </button>
+            <button class="nav-tab" data-view="saved" onclick="switchView('saved')">
+                <i class="fas fa-bookmark"></i> Saved <span class="badge-count" id="savedCount">0</span>
+            </button>
+            <button class="nav-tab" data-view="tracker" onclick="switchView('tracker')">
+                <i class="fas fa-tasks"></i> My Applications <span class="badge-count" id="appliedCount">0</span>
+            </button>
+        </div>
+
+        <div class="user-profile">
+            <div class="avatar">ST</div>
+            <span>Student Portal</span>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <header class="hero" id="heroSection">
+        <h1>Launch Your Career with Top Tech Internships</h1>
+        <p>Discover curated remote and on-site opportunities, inspect role expectations, submit tailored applications, and monitor real-time hiring stages.</p>
+    </header>
+
+    <!-- Search & Filter Bar -->
+    <div class="search-container" id="filterSection">
+        <div class="filter-bar">
+            <div class="input-group">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" class="form-control" placeholder="Search by role, company, or skill (e.g. Python, Frontend, AI)...">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-layer-group"></i>
+                <select id="categoryFilter" class="form-control">
+                    <option value="All">All Domains</option>
+                    <option value="Software Engineering">Software Engineering</option>
+                    <option value="AI & Data Science">AI & Data Science</option>
+                    <option value="UI/UX Design">UI/UX Design</option>
+                    <option value="Cloud & DevOps">Cloud & DevOps</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-map-marker-alt"></i>
+                <select id="modeFilter" class="form-control">
+                    <option value="All">All Work Modes</option>
+                    <option value="Remote">Remote</option>
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="On-site">On-site</option>
+                </select>
+            </div>
+            <button class="btn-reset" onclick="resetFilters()"><i class="fas fa-rotate-left"></i> Reset</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Explore & Saved View -->
+        <div id="exploreView">
+            <div class="section-header">
+                <h2 class="section-title" id="listingHeading">Available Internships</h2>
+                <span id="resultsCount" style="font-size: 0.88rem; color: var(--text-muted); font-weight: 600;"></span>
+            </div>
+            <div class="internships-grid" id="internshipsGrid"></div>
+        </div>
+
+        <!-- Application Tracker View -->
+        <div id="trackerView" class="hidden">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--primary-light); color: var(--primary);">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="statTotal">0</h3>
+                        <p>Total Applied</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--warning-bg); color: var(--warning);">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="statReview">0</h3>
+                        <p>In Review / Interview</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--success-bg); color: var(--success);">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="statOffered">0</h3>
+                        <p>Offers Received</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">Application Pipeline</h2>
+                <span style="font-size: 0.82rem; color: var(--text-muted);">Tip: Use "Simulate Progress" to test stage updates</span>
+            </div>
+            <div class="tracker-list" id="trackerList"></div>
+        </div>
+    </main>
+
+    <!-- Internship Details Modal -->
+    <div class="modal-overlay" id="detailsModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('detailsModal')"><i class="fas fa-times"></i></button>
+            <div id="detailsModalContent"></div>
+        </div>
+    </div>
+
+    <!-- Apply Form Modal -->
+    <div class="modal-overlay" id="applyModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('applyModal')"><i class="fas fa-times"></i></button>
+            <h2 style="font-size: 1.35rem; color: var(--secondary); margin-bottom: 4px;">Apply for Internship</h2>
+            <p id="applySubtitle" style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;"></p>
+
+            <form id="applicationForm" onsubmit="submitApplication(event)">
+                <input type="hidden" id="applyInternshipId">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="applicantName" class="form-input" placeholder="e.g. Ayesha Khan" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" id="applicantEmail" class="form-input" placeholder="e.g. ayesha.dev@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>University / Degree & Semester *</label>
+                    <input type="text" id="applicantEdu" class="form-input" placeholder="e.g. BS Computer Science, 7th Semester" required>
+                </div>
+                <div class="form-group">
+                    <label>GitHub / Portfolio URL *</label>
+                    <input type="url" id="applicantPortfolio" class="form-input" placeholder="https://github.com/username" required>
+                </div>
+                <div class="form-group">
+                    <label>Why are you a strong fit for this role? *</label>
+                    <textarea id="applicantCover" class="form-input" placeholder="Highlight relevant projects, tech stack, and availability..." required></textarea>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 1.5rem;">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('applyModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle" style="color: var(--success);"></i>
+        <span id="toastMessage">Action completed</span>
+    </div>
+
+    <script>
+        // Structured Internship Dataset
+        const internshipsData = [
+            {
+                id: 1,
+                title: "Frontend Web Developer Intern",
+                company: "NexaTech Systems",
+                logoText: "NT",
+                logoColor: "#4f46e5",
+                category: "Software Engineering",
+                mode: "Remote",
+                location: "Remote (Global)",
+                duration: "3 Months",
+                stipend: "$450 / month",
+                deadline: "Dec 15, 2026",
+                skills: ["HTML5", "CSS3", "JavaScript", "Tailwind CSS", "Git"],
+                description: "Join our core product engineering team to build responsive, accessible, and high-performance user interfaces for enterprise SaaS dashboards.",
+                responsibilities: [
+                    "Translate Figma wireframes into clean, modular HTML, CSS, and JavaScript components.",
+                    "Optimize web vitals, cross-browser compatibility, and mobile responsiveness.",
+                    "Collaborate with backend engineers to integrate RESTful APIs."
+                ],
+                requirements: [
+                    "Strong command of modern ES6+ JavaScript and semantic HTML/CSS.",
+                    "Portfolio of deployed web projects on GitHub Pages or Vercel.",
+                    "Familiarity with Git workflows and version control."
+                ]
+            },
+            {
+                id: 2,
+                title: "Machine Learning & AI Intern",
+                company: "CogniCore Labs",
+                logoText: "CC",
+                logoColor: "#0ea5e9",
+                category: "AI & Data Science",
+                mode: "Remote",
+                location: "Remote",
+                duration: "4 Months",
+                stipend: "$600 / month",
+                deadline: "Dec 20, 2026",
+                skills: ["Python", "Scikit-Learn", "Pandas", "Streamlit", "NLP"],
+                description: "Work alongside applied AI researchers to train, evaluate, and deploy predictive machine learning models and interactive web prototypes.",
+                responsibilities: [
+                    "Preprocess structured and unstructured datasets for supervised learning pipelines.",
+                    "Build interactive model demos using Python and Streamlit.",
+                    "Document model evaluation metrics, feature importance, and error analysis."
+                ],
+                requirements: [
+                    "Proficiency in Python and core ML libraries (NumPy, Pandas, Scikit-Learn).",
+                    "Understanding of classification, regression, and basic NLP techniques.",
+                    "Ability to work independently in a remote agile sprint cycle."
+                ]
+            },
+            {
+                id: 3,
+                title: "Product UI/UX Design Intern",
+                company: "PixelCraft Studio",
+                logoText: "PC",
+                logoColor: "#ec4899",
+                category: "UI/UX Design",
+                mode: "Hybrid",
+                location: "Lahore, PK",
+                duration: "3 Months",
+                stipend: "PKR 35,000 / mo",
+                deadline: "Dec 10, 2026",
+                skills: ["Figma", "Prototyping", "Design Systems", "Wireframing"],
+                description: "Design intuitive mobile and web experiences from user research and low-fidelity wireframes to interactive design systems.",
+                responsibilities: [
+                    "Conduct heuristic evaluations and user flow mapping for client applications.",
+                    "Create interactive clickable prototypes and reusable component libraries in Figma.",
+                    "Partner with frontend developers during design handoff."
+                ],
+                requirements: [
+                    "Hands-on experience with Figma auto-layout and component variants.",
+                    "A case-study-driven design portfolio demonstrating problem-solving.",
+                    "Strong eye for typography, spacing, and visual hierarchy."
+                ]
+            },
+            {
+                id: 4,
+                title: "Cloud & DevOps Engineering Intern",
+                company: "SkyScale Infrastructure",
+                logoText: "SS",
+                logoColor: "#10b981",
+                category: "Cloud & DevOps",
+                mode: "Remote",
+                location: "Remote",
+                duration: "6 Months",
+                stipend: "$700 / month",
+                deadline: "Dec 28, 2026",
+                skills: ["Linux", "Docker", "GitHub Actions", "Bash", "AWS"],
+                description: "Automate CI/CD deployment workflows, containerize microservices, and monitor cloud infrastructure reliability.",
+                responsibilities: [
+                    "Write Dockerfiles and maintain multi-container local development environments.",
+                    "Configure automated testing and deployment pipelines using GitHub Actions.",
+                    "Assist in log analysis and system health monitoring on Linux servers."
+                ],
+                requirements: [
+                    "Comfort with Linux command line (Ubuntu/WSL) and Bash scripting.",
+                    "Basic understanding of Docker containers and HTTP networking.",
+                    "Eagerness to learn cloud infrastructure best practices."
+                ]
+            },
+            {
+                id: 5,
+                title: "Full-Stack JavaScript Intern",
+                company: "Veloce Digital",
+                logoText: "VD",
+                logoColor: "#f59e0b",
+                category: "Software Engineering",
+                mode: "On-site",
+                location: "Islamabad, PK",
+                duration: "3 Months",
+                stipend: "PKR 45,000 / mo",
+                deadline: "Dec 18, 2026",
+                skills: ["JavaScript", "Node.js", "REST APIs", "SQL", "HTML/CSS"],
+                description: "Contribute across the full web stack by developing API endpoints, database schemas, and interactive client views.",
+                responsibilities: [
+                    "Develop clean backend routes and integrate relational database queries.",
+                    "Implement client-side state management and form validation.",
+                    "Participate in daily standups and peer code reviews."
+                ],
+                requirements: [
+                    "Solid grasp of asynchronous JavaScript (Promises, Async/Await, Fetch API).",
+                    "Basic knowledge of relational databases and REST principles.",
+                    "Strong analytical and debugging skills."
+                ]
+            },
+            {
+                id: 6,
+                title: "Data Analytics & BI Intern",
+                company: "MetricPulse",
+                logoText: "MP",
+                logoColor: "#8b5cf6",
+                category: "AI & Data Science",
+                mode: "Hybrid",
+                location: "Faisalabad, PK",
+                duration: "2 Months",
+                stipend: "PKR 30,000 / mo",
+                deadline: "Dec 12, 2026",
+                skills: ["Python", "SQL", "Data Visualization", "Excel"],
+                description: "Transform raw business datasets into actionable insights and executive dashboards for e-commerce partners.",
+                responsibilities: [
+                    "Clean, merge, and query large transactional datasets using SQL and Python.",
+                    "Build automated KPI reports and trend visualizations.",
+                    "Present weekly analytical findings to product stakeholders."
+                ],
+                requirements: [
+                    "Strong command of SQL queries (joins, aggregations, window functions).",
+                    "Experience with Python data analysis or spreadsheet modeling.",
+                    "Clear written and verbal communication skills."
+                ]
+            }
+        ];
+
+        // Persistent State (LocalStorage)
+        let savedIds = JSON.parse(localStorage.getItem('internflow_saved')) || [];
+        let applications = JSON.parse(localStorage.getItem('internflow_apps')) || [];
+        let currentView = 'explore';
+
+        const STAGES = ["Submitted", "Under Review", "Interview", "Offered"];
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            updateBadges();
+            renderInternships();
+
+            document.getElementById('searchInput').addEventListener('input', renderInternships);
+            document.getElementById('categoryFilter').addEventListener('change', renderInternships);
+            document.getElementById('modeFilter').addEventListener('change', renderInternships);
+        });
+
+        // View Navigation
+        function switchView(view) {
+            currentView = view;
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === view);
+            });
+
+            const exploreView = document.getElementById('exploreView');
+            const trackerView = document.getElementById('trackerView');
+            const heroSection = document.getElementById('heroSection');
+            const filterSection = document.getElementById('filterSection');
+
+            if (view === 'tracker') {
+                exploreView.classList.add('hidden');
+                heroSection.classList.add('hidden');
+                filterSection.classList.add('hidden');
+                trackerView.classList.remove('hidden');
+                renderTracker();
+            } else {
+                trackerView.classList.add('hidden');
+                exploreView.classList.remove('hidden');
+                heroSection.classList.remove('hidden');
+                filterSection.classList.remove('hidden');
+                document.getElementById('listingHeading').textContent =
+                    view === 'saved' ? 'Saved Internships' : 'Available Internships';
+                renderInternships();
+            }
+        }
+
+        // Filter & Render Internship Cards
+        function renderInternships() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const category = document.getElementById('categoryFilter').value;
+            const mode = document.getElementById('modeFilter').value;
+
+            let filtered = internshipsData.filter(item => {
+                if (currentView === 'saved' && !savedIds.includes(item.id)) return false;
+
+                const matchesQuery =
+                    item.title.toLowerCase().includes(query) ||
+                    item.company.toLowerCase().includes(query) ||
+                    item.skills.some(skill => skill.toLowerCase().includes(query));
+
+                const matchesCategory = category === 'All' || item.category === category;
+                const matchesMode = mode === 'All' || item.mode === mode;
+
+                return matchesQuery && matchesCategory && matchesMode;
+            });
+
+            const grid = document.getElementById('internshipsGrid');
+            document.getElementById('resultsCount').textContent = `${filtered.length} ${filtered.length === 1 ? 'opportunity' : 'opportunities'} found`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <i class="fas fa-folder-open"></i>
+                        <h3>No matching internships found</h3>
+                        <p style="color: var(--text-muted); margin-top: 6px;">Try adjusting your search keywords or clearing active filters.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(item => {
+                const isSaved = savedIds.includes(item.id);
+                const isApplied = applications.some(app => app.internshipId === item.id);
+
+                return `
+                    <div class="card">
+                        <div>
+                            <div class="card-top">
+                                <div class="company-info">
+                                    <div class="company-logo" style="background: ${item.logoColor};">${item.logoText}</div>
+                                    <div>
+                                        <h3 class="card-title">${item.title}</h3>
+                                        <div class="company-name">${item.company}</div>
+                                    </div>
+                                </div>
+                                <button class="btn-bookmark ${isSaved ? 'saved' : ''}" onclick="toggleBookmark(${item.id})" title="${isSaved ? 'Remove from Saved' : 'Save Internship'}">
+                                    <i class="${isSaved ? 'fas' : 'far'} fa-bookmark"></i>
+                                </button>
+                            </div>
+
+                            <div class="tags">
+                                <span class="tag"><i class="fas fa-location-dot"></i> ${item.mode}</span>
+                                <span class="tag"><i class="far fa-clock"></i> ${item.duration}</span>
+                                <span class="tag stipend"><i class="fas fa-coins"></i> ${item.stipend}</span>
+                            </div>
+
+                            <div class="skills-list">
+                                ${item.skills.map(s => `<span class="skill-chip">${s}</span>`).join('')}
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <span class="deadline"><i class="far fa-calendar"></i> Due ${item.deadline}</span>
+                            <div class="card-actions">
+                                <button class="btn btn-outline" onclick="openDetails(${item.id})">Details</button>
+                                ${isApplied
+                                    ? `<button class="btn btn-applied" disabled><i class="fas fa-check"></i> Applied</button>`
+                                    : `<button class="btn btn-primary" onclick="openApplyModal(${item.id})">Apply Now</button>`
+                                }
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('categoryFilter').value = 'All';
+            document.getElementById('modeFilter').value = 'All';
+            renderInternships();
+        }
+
+        // Bookmark / Save Feature
+        function toggleBookmark(id) {
+            if (savedIds.includes(id)) {
+                savedIds = savedIds.filter(item => item !== id);
+                showToast('Removed from saved internships');
+            } else {
+                savedIds.push(id);
+                showToast('Internship saved for later');
+            }
+            localStorage.setItem('internflow_saved', JSON.stringify(savedIds));
+            updateBadges();
+            renderInternships();
+        }
+
+        // Open Details Modal
+        function openDetails(id) {
+            const item = internshipsData.find(i => i.id === id);
+            if (!item) return;
+
+            const isApplied = applications.some(app => app.internshipId === item.id);
+
+            document.getElementById('detailsModalContent').innerHTML = `
+                <div class="company-info" style="margin-bottom: 1rem;">
+                    <div class="company-logo" style="background: ${item.logoColor}; width: 54px; height: 54px; font-size: 1.25rem;">${item.logoText}</div>
+                    <div>
+                        <h2 style="font-size: 1.4rem; color: var(--secondary);">${item.title}</h2>
+                        <p style="color: var(--text-muted); font-weight: 600;">${item.company} • ${item.location}</p>
+                    </div>
+                </div>
+
+                <div class="tags" style="margin-bottom: 1.25rem;">
+                    <span class="tag"><i class="fas fa-layer-group"></i> ${item.category}</span>
+                    <span class="tag"><i class="fas fa-laptop-house"></i> ${item.mode}</span>
+                    <span class="tag"><i class="far fa-clock"></i> ${item.duration}</span>
+                    <span class="tag stipend"><i class="fas fa-coins"></i> ${item.stipend}</span>
+                </div>
+
+                <div class="modal-section">
+                    <h4>Role Overview</h4>
+                    <p style="font-size: 0.92rem; color: var(--text-main);">${item.description}</p>
+                </div>
+
+                <div class="modal-section">
+                    <h4>Key Responsibilities</h4>
+                    <ul>${item.responsibilities.map(r => `<li>${r}</li>`).join('')}</ul>
+                </div>
+
+                <div class="modal-section">
+                    <h4>Eligibility & Requirements</h4>
+                    <ul>${item.requirements.map(req => `<li>${req}</li>`).join('')}</ul>
+                </div>
+
+                <div class="modal-section">
+                    <h4>Required Skills</h4>
+                    <div class="skills-list">
+                        ${item.skills.map(s => `<span class="skill-chip">${s}</span>`).join('')}
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                    <button class="btn btn-outline" onclick="closeModal('detailsModal')">Close</button>
+                    ${isApplied
+                        ? `<button class="btn btn-applied" disabled><i class="fas fa-check"></i> Already Applied</button>`
+                        : `<button class="btn btn-primary" onclick="closeModal('detailsModal'); openApplyModal(${item.id});">Proceed to Apply</button>`
+                    }
+                </div>
+            `;
+
+            document.getElementById('detailsModal').classList.add('open');
+        }
+
+        // Open Application Modal
+        function openApplyModal(id) {
+            const item = internshipsData.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('applyInternshipId').value = item.id;
+            document.getElementById('applySubtitle').textContent = `${item.title} at ${item.company} (${item.mode})`;
+            document.getElementById('applicationForm').reset();
+            document.getElementById('applyModal').classList.add('open');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('open');
+        }
+
+        // Submit Application
+        function submitApplication(event) {
+            event.preventDefault();
+            const internshipId = parseInt(document.getElementById('applyInternshipId').value);
+            const internship = internshipsData.find(i => i.id === internshipId);
+
+            if (applications.some(app => app.internshipId === internshipId)) {
+                showToast('You have already applied to this role.');
+                closeModal('applyModal');
+                return;
+            }
+
+            const newApplication = {
+                appId: 'APP-' + Math.floor(100000 + Math.random() * 900000),
+                internshipId: internship.id,
+                title: internship.title,
+                company: internship.company,
+                logoText: internship.logoText,
+                logoColor: internship.logoColor,
+                applicantName: document.getElementById('applicantName').value.trim(),
+                applicantEmail: document.getElementById('applicantEmail').value.trim(),
+                applicantEdu: document.getElementById('applicantEdu').value.trim(),
+                portfolio: document.getElementById('applicantPortfolio').value.trim(),
+                coverNote: document.getElementById('applicantCover').value.trim(),
+                appliedDate: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                stageIndex: 0
+            };
+
+            applications.unshift(newApplication);
+            localStorage.setItem('internflow_apps', JSON.stringify(applications));
+
+            closeModal('applyModal');
+            updateBadges();
+            renderInternships();
+            showToast(`Application submitted to ${internship.company}!`);
+        }
+
+        // Render Application Tracker
+        function renderTracker() {
+            const list = document.getElementById('trackerList');
+
+            // Update Stats
+            document.getElementById('statTotal').textContent = applications.length;
+            document.getElementById('statReview').textContent = applications.filter(a => a.stageIndex === 1 || a.stageIndex === 2).length;
+            document.getElementById('statOffered').textContent = applications.filter(a => a.stageIndex === 3).length;
+
+            if (applications.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h3>No applications tracked yet</h3>
+                        <p style="color: var(--text-muted); margin: 6px 0 16px;">Explore open internships and submit your first application to track progress here.</p>
+                        <button class="btn btn-primary" onclick="switchView('explore')">Browse Internships</button>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = applications.map(app => {
+                const currentStage = STAGES[app.stageIndex];
+                const statusClass = 'status-' + currentStage.replace(/\s+/g, '-');
+
+                return `
+                    <div class="tracker-card">
+                        <div class="company-info">
+                            <div class="company-logo" style="background: ${app.logoColor};">${app.logoText}</div>
+                            <div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">${app.appId} • Applied ${app.appliedDate}</div>
+                                <h3 class="card-title">${app.title}</h3>
+                                <div class="company-name">${app.company} • <span style="color: var(--primary);">${app.applicantName}</span></div>
+                            </div>
+                        </div>
+
+                        <div class="stepper">
+                            ${STAGES.map((stage, idx) => {
+                                let stateClass = '';
+                                if (idx < app.stageIndex) stateClass = 'completed';
+                                else if (idx === app.stageIndex) stateClass = 'active';
+                                return `
+                                    <div class="step ${stateClass}">
+                                        <div class="step-circle">${idx < app.stageIndex ? '<i class="fas fa-check"></i>' : idx + 1}</div>
+                                        <span class="step-label">${stage}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+                            <span class="status-badge ${statusClass}">${currentStage}</span>
+                            <div style="display: flex; gap: 6px;">
+                                ${app.stageIndex < STAGES.length - 1
+                                    ? `<button class="btn btn-outline" style="font-size: 0.76rem; padding: 5px 10px;" onclick="advanceStage('${app.appId}')">Simulate Next Stage</button>`
+                                    : ''
+                                }
+                                <button class="btn btn-outline" style="font-size: 0.76rem; padding: 5px 10px; color: var(--danger);" onclick="withdrawApplication('${app.appId}')" title="Withdraw Application">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Advance Application Stage (Demo Simulation)
+        function advanceStage(appId) {
+            const app = applications.find(a => a.appId === appId);
+            if (app && app.stageIndex < STAGES.length - 1) {
+                app.stageIndex++;
+                localStorage.setItem('internflow_apps', JSON.stringify(applications));
+                renderTracker();
+                showToast(`Status updated to: ${STAGES[app.stageIndex]}`);
+            }
+        }
+
+        // Withdraw Application
+        function withdrawApplication(appId) {
+            applications = applications.filter(a => a.appId !== appId);
+            localStorage.setItem('internflow_apps', JSON.stringify(applications));
+            updateBadges();
+            renderTracker();
+            showToast('Application withdrawn');
+        }
+
+        // Update Navigation Badges
+        function updateBadges() {
+            document.getElementById('savedCount').textContent = savedIds.length;
+            document.getElementById('appliedCount').textContent = applications.length;
+        }
+
+        // Toast Feedback
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Close modal on outside click
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>
